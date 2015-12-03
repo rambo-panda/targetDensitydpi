@@ -128,6 +128,7 @@
             targetDensitydpi =  uiWidth / deviceWidth * devicePixelRatio * 160,
             initialContent   = 'target-densitydpi=' + targetDensitydpi + ' width=' + uiWidth + ', user-scalable=no';
 	    // TODO 这个最终弃用，是因为发现那些无法自动识别target-densitydpi的浏览器，无法只通过initial-scale放大缩小来改变其适应性。 当然对于未来越来越标准的浏览器的来说，是最优美的解决方案.
+	    // 目前检测到已经履行webkit放弃target-densitydpi的国内浏览器厂商有魅族
 	    //initialScale =  deviceWidth / uiWidth,
             //initialContent   = 'width='+ uiWidth +', user-scalable=no, initial-scale =' + initialScale;
             //initialContent   = 'target-densitydpi=' + targetDensitydpi + ', width=device-width, user-scalable=no, initial-scale =' + initialScale;
