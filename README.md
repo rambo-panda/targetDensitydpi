@@ -33,7 +33,7 @@ target-densitydpi = UI-width / device-width * window.devicePixelRatio * 160;
 
 
 ###三 target-densitydpi 被废弃？
-是的 你没有看错，这个属性一开始就不被高傲的苹果支持，其后webkit规范组织，也声明 `我们不再支持他` [webkit放弃target-densitydpi](https://lists.webkit.org/pipermail/webkit-dev/2012-June/020914.html)
+是的 你没有看错，这个属性一开始就不被高傲的苹果支持，其后webkit规范组织，也声明 `我们不再支持他` [webkit放弃target-densitydpi](https://lists.webkit.org/pipermail/webkit-dev/2012-June/020914.html) [Viewport target-densitydpi support is being deprecated](http://www.petelepage.com/blog/2013/02/viewport-target-densitydpi-support-is-being-deprecated/)
 
 #### 但是别忘了，前端工程师很大程度上来说就是跟兼容性斗争的一个苦逼而兴奋的职业。 规范是规范，执行时执行。 你以为我们的oppo vivo会听话？ 你以为我们小米会听话？ 别逗了，FE们，我们还是得靠代码去解决真正的兼容吧
 
