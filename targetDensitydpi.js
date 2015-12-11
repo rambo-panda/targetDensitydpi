@@ -78,6 +78,12 @@
 
     };
 
+    var getAndroidVersion = function(ua){
+        ua = (ua || window.navigator.userAgent).toLowerCase();
+        var match = ua.match(/android\s([0-9\.]*)/);
+        return match ? match[1] : false;
+    };
+
     //实现缩放
     var adapt = function(uiWidth, diyContent){
 
@@ -116,21 +122,21 @@
             throw "必须有viewport meta标签 并且最好有width选项";
         }
 
-        var isSupportViewportWidth = isiOS || checkAndroidSupportViewportWidth(viewportMeta.content);
+        var isSupportViewportWidth = isiOS || checkAndroidSupportViewportWidth(viewportMeta.content),
+            // [Viewport target-densitydpi no longer supported](http://developer.android.com/guide/webapps/migrating.html#TargetDensity)
+	    // 如果想严格来判断版本号 还需要引入string_compare.js
+            isSupportTargetDensitydpiAndroid  = getAndroidVersion(USERAGENT) < '4.4';
 
-        if(isSupportViewportWidth){
+        if(isSupportViewportWidth || !isSupportTargetDensitydpiAndroid){
             return ;
         }
-
 
         var devicePixelRatio = WIN.devicePixelRatio || 1,
             deviceWidth      = regulateScreen().width,
             targetDensitydpi =  uiWidth / deviceWidth * devicePixelRatio * 160,
-            initialContent   = 'target-densitydpi=' + targetDensitydpi + ' width=' + uiWidth + ', user-scalable=no';
-	    // TODO 这个最终弃用，是因为发现那些无法自动识别target-densitydpi的浏览器，无法只通过initial-scale放大缩小来改变其适应性。 当然对于未来越来越标准的浏览器的来说，是最优美的解决方案.
-	    //initialScale =  deviceWidth / uiWidth,
-            //initialContent   = 'width='+ uiWidth +', user-scalable=no, initial-scale =' + initialScale;
-            //initialContent   = 'target-densitydpi=' + targetDensitydpi + ', width=device-width, user-scalable=no, initial-scale =' + initialScale;
+            // 因为有些手机不支持我们自己计算出来的device-width(uiWidth) 所以最好还是使用 width=device-width 让他自己适配
+            //initialContent   = 'target-densitydpi=' + targetDensitydpi + ', width=' + uiWidth + ', user-scalable=no';
+            initialContent   = 'target-densitydpi=' + targetDensitydpi + ', width=device-width, user-scalable=no';
 
         viewportMeta.content = initialContent;
     };
@@ -138,4 +144,3 @@
     window.adaptUILayout =  adapt;
 
 })();
-
