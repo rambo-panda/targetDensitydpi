@@ -58,26 +58,6 @@
 
     })();
 
-    var checkAndroidSupportViewportWidth = function(){
-
-        var checkWidthByViewport = function(viewportMetaContent) {
-
-            var viewportWidth = viewportMetaContent.toLowerCase().match(/width=([^,]+)/);
-
-            viewportWidth && (viewportWidth = viewportWidth[1]);
-
-            viewportWidth === "device-width" && (viewportWidth = WIN.screen.width.toString());
-
-            return viewportWidth && WIN.document.documentElement.clientWidth === +viewportWidth.replace("px");
-
-        };
-
-        checkAndroidSupportViewportWidth = checkWidthByViewport;
-
-        return checkWidthByViewport.apply(null, arguments);
-
-    };
-
     var getAndroidVersion = function(ua){
         ua = (ua || window.navigator.userAgent).toLowerCase();
         var match = ua.match(/android\s([0-9\.]*)/);
@@ -122,12 +102,10 @@
             throw "必须有viewport meta标签 并且最好有width选项";
         }
 
-        var isSupportViewportWidth = isiOS || checkAndroidSupportViewportWidth(viewportMeta.content),
-            // [Viewport target-densitydpi no longer supported](http://developer.android.com/guide/webapps/migrating.html#TargetDensity)
-	    // 如果想严格来判断版本号 还需要引入string_compare.js
+        var // [Viewport target-densitydpi no longer supported](http://developer.android.com/guide/webapps/migrating.html#TargetDensity)
             isSupportTargetDensitydpiAndroid  = getAndroidVersion(USERAGENT) < '4.4';
 
-        if(isSupportViewportWidth || !isSupportTargetDensitydpiAndroid){
+        if(isiOS || !isSupportTargetDensitydpiAndroid){
             return ;
         }
 
